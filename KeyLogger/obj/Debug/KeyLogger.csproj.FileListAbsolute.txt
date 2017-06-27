@@ -1,0 +1,7 @@
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\bin\Debug\KeyLogger.exe.config
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\bin\Debug\KeyLogger.exe
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\bin\Debug\KeyLogger.pdb
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\obj\Debug\KeyLogger.csprojResolveAssemblyReference.cache
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\obj\Debug\KeyLogger.exe
+c:\users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\obj\Debug\KeyLogger.pdb
+C:\Users\root\documents\visual studio 2017\Projects\KeyLogger\KeyLogger\bin\Debug\MouseKeyboardActivityMonitor.dll
